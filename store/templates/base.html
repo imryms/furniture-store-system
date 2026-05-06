@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>furniture_store_system</title>
+    <meta charset="UTF-8">
+    <title>FurniStore</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    <div class="layout">
 
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="{% static 'img/logo.png' %}" alt="logo">
+                <div>
+                    <h2>FurniStore</h2>
+                    <p>Management System</p>
+                </div>
+            </div>
+            <nav>
+                <a href="#" class="nav-item">
+                     Products
+                </a>
+                <a href="#" class="nav-item">
+                     Orders
+                </a>
+                <a href="#" class="nav-item">
+                     Customers
+                </a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
 </body>
 </html>
