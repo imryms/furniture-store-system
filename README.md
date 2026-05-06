@@ -27,9 +27,9 @@
 ***
 ### ***Screenshots***
 ##### Page
-![Home](./docs/screenshot_home.png)
+![Home](./docs/homepage.jpeg)
 ##### Page
-![Order](./docs/screenshot_order.png)
+![Order](./docs/products.jpeg)
 ***
 ### ***Future Updates***
 - [ ] Delivery tracking

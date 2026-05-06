@@ -11,7 +11,6 @@ from .models import (
     OrderItem
 )
 
-
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
         ('Branch Info', {'fields': ('branch',)}),
