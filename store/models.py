@@ -33,7 +33,7 @@ class ProductDetails(models.Model):
     code = models.CharField(max_length=50, unique=True)
     color = models.CharField(max_length=50, blank=True)
     size = models.CharField(max_length=50, blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)  # ✅ FIXED
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
         return f"{self.product.name} - {self.code}"
@@ -64,7 +64,7 @@ class Order(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     order_type = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)  # ✅ FIXED
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)  
     note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
