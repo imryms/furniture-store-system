@@ -131,3 +131,5 @@ DATABASES = {
 }
 
 
+AUTH_USER_MODEL = 'store.User'
+
