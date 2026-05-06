@@ -1,7 +1,7 @@
 # Furniture Store Management System
 ## Date: 5/6/2026
 ### By: Maryam Altammam - Fatema Alnajjas - Zainab Aljad
-#### [Maryam's GitHub](https://github.com/imryms) | [Fatema's GitHub](https://github.com/Fatii78) | [Zainab's GitHub](https://github.com/Zaljad)  |
+#### [Maryam's GitHub](https://github.com/imryms) | [Fatema's GitHub](https://github.com/Fatii78) | [Zainab's GitHub](https://github.com/Zaljad)  
 #### [Maryam's LinkedIn](https://www.linkedin.com/in/maryam-altammam/) | [Fatema's LinkedIn](https://www.linkedin.com/in/fatema-alnajjas/) | [Zainabs's LinkedIn](https://www.linkedin.com/in/zainabaljad/)
 ***
 ***
