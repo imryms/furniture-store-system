@@ -1,12 +1,11 @@
 # Furniture Store Management System
 ## Date: 5/6/2026
 ### By: Maryam Altammam - Fatema Alnajjas - Zainab Aljad
-#### [Maryam's GitHub](https://github.com/imryms) | [Fatema's GitHub](https://github.com/Fatii78) | [Zainab's GitHub](https://github.com/Zaljad)  
+#### [Maryam's GitHub](https://github.com/imryms) | [Fatema's GitHub](https://github.com/Fatii78) | [Zainab's GitHub](https://github.com/Zaljad)
 #### [Maryam's LinkedIn](https://www.linkedin.com/in/maryam-altammam/) | [Fatema's LinkedIn](https://www.linkedin.com/in/fatema-alnajjas/) | [Zainabs's LinkedIn](https://www.linkedin.com/in/zainabaljad/)
 ***
-***
 ### ***Description***
-#### A web-based Furniture Store Sales System built with Django and PostgreSQL. The system simulates the real workflow inside a furniture showroom — allowing salespersons to search for products, check availability across branches, and process customer orders. If a product is available in the current branch, the customer can pick it up immediately. If not, the system creates a delivery order instead.
+#### A web-based Furniture Store Sales System built with Django and PostgreSQL. The system simulates the real workflow inside a furniture showroom — allowing salespersons to search for products, check availability across branches, and process customer orders. If a product is available in the current branch, the customer can pick it up immediately or the system creates a delivery order instead.
 ***
 ### ***Technologies Used***
 * Python
