@@ -129,3 +129,5 @@ DATABASES = {
         'PORT': config('DB_PORT'),
     }
 }
+
+AUTH_USER_MODEL = 'store.User'
