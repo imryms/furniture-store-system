@@ -1,5 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<a href="{% url 'customer_list' %}" style="text-decoration: none;">
+    <i class="bi bi-arrow-left" style="color: #000; font-size: 1.2rem;"></i>
+</a>
+
+<h3>Customer: {{ customer.name }}</h3>
+<h4>Order History</h4>
+
+{% if orders %}
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.created_at|date:"d/m/Y" }}</td>
+                <td>{{ order.status }}</td>
+                <td>{{ order.total_price }} BHD</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>This customer has no orders yet.</p>
+{% endif %}
 
 {% endblock %}

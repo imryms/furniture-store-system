@@ -53,6 +53,7 @@ class Stock(models.Model):
 class Customer(models.Model):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
+    email = models.EmailField(unique=True, null=True, blank=True) 
     address = models.TextField(blank=True)
 
     def __str__(self):
