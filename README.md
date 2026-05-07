@@ -25,11 +25,13 @@
 ##### Database Schema
 ![ERD](./docs/erd.jpeg)
 ***
-### ***Screenshots***
-##### Page
-![Home](./docs/screenshot_home.png)
-##### Page
-![Order](./docs/screenshot_order.png)
+### ***Wireframes Screenshots***
+##### Home Page
+![Home](./docs/homepage.jpeg)
+##### Products Page
+![Order](./docs/products.jpeg)
+##### Order Page
+![Order](./docs/orders.jpeg)
 ***
 ### ***Future Updates***
 - [ ] Delivery tracking

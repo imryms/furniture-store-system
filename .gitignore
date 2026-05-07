@@ -1,2 +1,4 @@
 .env
-
+store/__pycache__
+store/migrations
+furniture_store/__pycache__

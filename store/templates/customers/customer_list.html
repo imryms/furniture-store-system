@@ -1,9 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<a href="{% url 'customer_list' %}">
-    <i class="bi bi-arrow-left" style="color: #000;"></i>
-</a>
-<h2>Customer Management</h2>
+<h1>Customer Management</h1>
 <form method="GET" action="{% url 'customer_list' %}">
     <input type="text" name="search" placeholder="Search by name or phone..." value="{{ query }}">
     <button type="submit">
