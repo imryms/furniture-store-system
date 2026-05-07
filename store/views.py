@@ -125,6 +125,22 @@ class ProductListView(ListView):
         context["query"] = self.request.GET.get("search", "")
         return context
 
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile_view(request):
+    user = request.user
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        if hasattr(user, 'branch'):
+            user.branch = request.POST.get('branch')
+        user.save()
+        return redirect('profile_view')
+
+    return render(request, 'profile.html')
+
 class ProductDetailView(DetailView):
     model = ProductDetails
     template_name = 'products/product_detail.html'
