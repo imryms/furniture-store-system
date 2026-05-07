@@ -12,5 +12,4 @@ urlpatterns = [
     path('products/', ProductListView.as_view()),
     path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
 
-
 ]

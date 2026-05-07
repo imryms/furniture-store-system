@@ -1,4 +1,5 @@
 .env
-store/__pycache__
 store/migrations
-furniture_store/__pycache__
+__pycache__
+a.txt
+
