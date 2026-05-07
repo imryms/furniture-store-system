@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="{% url 'customer_list' %}" style="text-decoration: none;">
+    <i class="bi bi-arrow-left" style="color: #000; font-size: 1.2rem;"></i>
+</a>
+                    <h4>{{ title }}</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" >Save</button>
+                    </form>
+
+{% endblock %}

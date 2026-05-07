@@ -1,4 +1,58 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Customer, Order
+from .forms import CustomerForm
 
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+def customer_list(request):
+    return render(request, 'customers/customer_list.html')
+
+# Search - List Customer
+def customer_list(request):
+    search_query = request.GET.get('search', '')
+    if search_query:
+        customers = Customer.objects.filter(name__icontains=search_query) | Customer.objects.filter(phone__icontains=search_query)
+    else:
+        customers = Customer.objects.all()
+    return render(request, 'customers/customer_list.html', {'customers': customers, 'query': search_query})
+
+# 2. Add Customer
+def customer_create(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_list')
+    else:
+        form = CustomerForm()
+    return render(request, 'customers/customer_form.html', {'form': form, 'title': 'Add New Customer'})
+
+# 3. Edit Customer
+def customer_update(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    if request.method == "POST":
+        form = CustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('customer_list')
+    else:
+        form = CustomerForm(instance=customer)
+    return render(request, 'customers/customer_form.html', {'form': form, 'title': 'Edit Customer'})
+
+# 4. Delete Customer
+def customer_delete(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    if request.method == "POST":
+        customer.delete()
+        return redirect('customer_list')
+    return render(request, 'customers/customer_confirm_delete.html', {'customer': customer})
+
+# 5. Customer Detail
+def customer_detail(request, pk):
+    customer = get_object_or_404(Customer, pk=pk)
+    customer_orders = Order.objects.filter(customer=customer)
+    return render(request, 'customers/customer_detail.html', {
+        'customer': customer,
+        'orders': customer_orders
+    })

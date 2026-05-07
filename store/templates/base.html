@@ -5,6 +5,7 @@
     <title>FurniStore</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <div class="layout">
@@ -24,9 +25,9 @@
                 <a href="#" class="nav-item">
                      Orders
                 </a>
-                <a href="#" class="nav-item">
-                     Customers
-                </a>
+               <a href="{% url 'customer_list' %}" class="nav-item">
+     Customers
+</a>
             </nav>
         </aside>
 
