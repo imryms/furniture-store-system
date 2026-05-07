@@ -140,3 +140,16 @@ def profile_view(request):
         return redirect('profile_view')
 
     return render(request, 'profile.html')
+
+class ProductDetailView(DetailView):
+    model = ProductDetails
+    template_name = 'products/product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stocks'] = self.object.stock_set.all()
+        context['variants'] = ProductDetails.objects.filter(
+            product=self.object.product
+        )
+        return context
