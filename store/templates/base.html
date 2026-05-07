@@ -5,30 +5,34 @@
     <title>FurniStore</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
     <div class="layout">
-
         <aside class="sidebar">
-            <div class="logo">
-                <img src="{% static 'img/logo.png' %}" alt="logo">
-                <div>
-                    <h2>FurniStore</h2>
-                    <p>Management System</p>
-                </div>
+    <div class="sidebar-top">
+        <div class="logo">
+            <img src="{% static 'img/logo.png' %}" alt="logo">
+            <div>
+                <h2>FurniStore</h2>
+                <p>Management System</p>
             </div>
-            <nav>
-                <a href="#" class="nav-item">
-                     Products
-                </a>
-                <a href="#" class="nav-item">
-                     Orders
-                </a>
-                <a href="#" class="nav-item">
-                     Customers
-                </a>
-            </nav>
-        </aside>
+
+        </div>
+        <nav>
+            <a href="/products/" class="nav-item">Products</a>
+            <a href="#" class="nav-item">Orders</a>
+            <a href="{% url 'customer_list' %}" class="nav-item">  Customers </a>
+</nav>
+    </div>
+
+    <div class="user-info">
+        <a href="/profile/">
+            <p class="user-name">{{ request.user.get_full_name }}</p>
+            <p class="user-branch">{{ request.user.branch }}</p>
+        </a>
+    </div>
+</aside>
 
         <main class="content">
             {% block content %}
