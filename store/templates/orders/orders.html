@@ -1,5 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="page-header">
+  <h2>Orders Management</h2>
+  <p>Track and manage customer orders</p>
+</div>
+
+<div class="search-container">
+  <form method="GET" action="{% url 'order_list'%}">
+    <input type="text" name="q" placeholder="search for Order by OrderID ...">
+    <button type="submit">Search</button>
+  </form>
+
+</div>
+
+<div class='order-table'>
+  <table>
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer</th>
+        <th>Total Amount(BHD)</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for in order in orders  %}
+      <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.customer.name }}</td>
+        <td>{{ order.total_amount}}</td>
+        <td>{{ order.status }}</td>
+        <td>{{ order.created_at|date:'Y-m-d' }}</td>
+        <td><a href="{% url 'order_detail' order.id%}" class='detail-btn'></a></td>
+      </tr>
+      {% empty %}
+        <p>No Orders Yet</p>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 
 {% endblock %}
