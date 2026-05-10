@@ -8,7 +8,8 @@ from .models import (
     Stock,
     Customer,
     Order,
-    OrderItem
+    OrderItem,
+    Category
 )
 
 class CustomUserAdmin(UserAdmin):
@@ -49,3 +50,5 @@ admin.site.register(Stock, StockAdmin)
 admin.site.register(Customer)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)
+admin.site.register(Category)
+
