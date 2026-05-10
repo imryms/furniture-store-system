@@ -12,6 +12,7 @@ from django.views.generic import (
     UpdateView,
 )
 from django.db.models import Count
+from django.utils import timezone
 
 
 def dashboard(request):
@@ -33,7 +34,7 @@ def dashboard(request):
         orderitem__order__branch=user_branch
     ).annotate(
         order_count = Count('orderitem')
-    ).order_by('-order_count')[:3]
+    ).order_by('-order_count')[:1]
 
     context = {
         'todays_orders':todays_orders,
