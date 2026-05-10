@@ -6,11 +6,39 @@
     <h1>Products</h1>
 </div>
 
-<form method="GET" >
-    <input type="text" name="search" placeholder="Search by name or code..." value="{{ query }}">
-    <button type="submit">
-        <i class="bi bi-search" style="color: #000;"></i>
-    </button>
+<form method="GET">
+    <div class="search-bar">
+        <input type="text" name="search" placeholder="Search by name or code..." value="{{ query }}">
+        <button type="submit" class="search-btn">Search</button>
+    </div>
+
+    <div class="filters">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for cat in categories %}
+            <option value="{{ cat.id }}" {% if selected_category == cat.id|stringformat:"s" %}selected{% endif %}>
+                {{ cat.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <select name="color">
+            <option value="">All Colors</option>
+            {% for color in colors %}
+            <option value="{{ color }}" {% if selected_color == color %}selected{% endif %}>
+                {{ color }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <select name="stock">
+            <option value="">All</option>
+            <option value="available" {% if selected_stock == "available" %}selected{% endif %}>Available</option>
+            <option value="out_of_stock" {% if selected_stock == "out_of_stock" %}selected{% endif %}>Out of Stock</option>
+        </select>
+
+        <button type="submit" class="search-btn">Filter</button>
+    </div>
 </form>
 
 {% for product in products %}

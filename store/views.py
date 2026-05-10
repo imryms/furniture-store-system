@@ -165,19 +165,50 @@ class ProductListView(LoginRequiredMixin, ListView):
     context_object_name = "products"
 
     def get_queryset(self):
+        queryset = ProductDetails.objects.all()
+
         query = self.request.GET.get("search", "")
+        color = self.request.GET.get("color", "")
+        category = self.request.GET.get("category", "")
+
         if query:
-            return (
-                ProductDetails.objects.filter(product__name__icontains=query)
-                | ProductDetails.objects.filter(code__icontains=query)
-                | ProductDetails.objects.filter(color__icontains=query)
+            queryset = queryset.filter(
+                product__name__icontains=query
+            ) | queryset.filter(
+                code__icontains=query
             )
-        return ProductDetails.objects.all()
+
+        if color:
+            queryset = queryset.filter(color__icontains=color)
+
+        if category:
+            queryset = queryset.filter(product__category__id=category)
+
+        stock_filter = self.request.GET.get("stock", "")
+
+        if stock_filter == "available":
+            queryset = queryset.filter(
+                stock__branch=self.request.user.branch,
+                stock__quantity__gt=0
+            ).distinct()
+        elif stock_filter == "out_of_stock":
+            queryset = queryset.exclude(
+                stock__branch=self.request.user.branch,
+                stock__quantity__gt=0
+            ).distinct()
+
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["user_branch"] = self.request.user.branch
         context["query"] = self.request.GET.get("search", "")
+        context["selected_color"] = self.request.GET.get("color", "")
+        context["selected_category"] = self.request.GET.get("category", "")
+        context["colors"] = ProductDetails.objects.values_list("color", flat=True).distinct()
+        context["selected_stock"] = self.request.GET.get("stock", "")
+        from .models import Category
+        context["categories"] = Category.objects.all()
         return context
 
 
