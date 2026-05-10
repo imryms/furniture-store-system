@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import Product
 from .models import Order
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Customer, Order, ProductDetails
+from .models import Customer, Order, ProductDetails, Stock
 from .forms import CustomerForm
 from .forms import OrderForm
 from django.views.generic import (
@@ -12,21 +12,50 @@ from django.views.generic import (
     DeleteView,
     UpdateView,
 )
+from django.db.models import Count
+from django.utils import timezone
 
 
 def dashboard(request):
-    return render(request, "dashboard.html")
+    today = timezone.now().date()
+    user_branch = request.user.branch
+
+    todays_orders = Order.objects.filter(
+        branch = user_branch,
+        created_at__date =today
+    ).order_by('-created_at')
+
+    low_stock = Stock.objects.filter(
+        branch=user_branch,
+        location_type = 'showroom',
+        quantity=0
+    )
+
+    top_products = ProductDetails.objects.filter(
+        orderitem__order__branch=user_branch
+    ).annotate(
+        order_count = Count('orderitem')
+    ).order_by('-order_count')[:1]
+
+    context = {
+        'todays_orders':todays_orders,
+        'todays_count': todays_orders.count(),
+        'low_stock': low_stock,
+        'top_products':top_products,
+    }
+    return render(request, 'dashboard.html', context)
+
 
 
 class ProductListView(ListView):
     model = Product
-    template_name: "products.html"
+    template_name= "products.html"
     context_object_name = "products"
 
 # Order List View
 class OrderListView(ListView):
     model = Order
-    template_name = "orders/orders.html"
+    template_name= "orders/orders.html"
     context_object_name = "orders"
 
 # Create Order
@@ -156,4 +185,33 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         context["user_branch"] = self.request.user.branch
         context["query"] = self.request.GET.get("search", "")
+        return context
+
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def profile_view(request):
+    user = request.user
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        if hasattr(user, 'branch'):
+            user.branch = request.POST.get('branch')
+        user.save()
+        return redirect('profile_view')
+
+    return render(request, 'profile.html')
+
+class ProductDetailView(DetailView):
+    model = ProductDetails
+    template_name = 'products/product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stocks'] = self.object.stock_set.all()
+        context['variants'] = ProductDetails.objects.filter(
+            product=self.object.product
+        )
         return context

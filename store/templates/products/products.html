@@ -6,11 +6,11 @@
     <h1>Products</h1>
 </div>
 
-<form method="GET">
-    <div class="search-bar">
-        <input type="text" name="search" placeholder="Search by name or code..." value="{{ query }}">
-        <button type="submit" class="search-btn">Search</button>
-    </div>
+<form method="GET" >
+    <input type="text" name="search" placeholder="Search by name or code..." value="{{ query }}">
+    <button type="submit">
+        <i class="bi bi-search" style="color: #000;"></i>
+    </button>
 </form>
 
 {% for product in products %}
@@ -39,7 +39,7 @@
     </div>
 
     <div class="product-actions">
-        <a href="" class="order-button">View Details</a>
+        <a href="{% url 'product_detail' product.id %}" class="order-button">View Details</a>
     </div>
 
 </div>
