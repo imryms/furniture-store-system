@@ -1,10 +1,6 @@
-from django.shortcuts import render
-from .models import Product
-from .models import Order
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Customer, Order, ProductDetails, Stock
-from .forms import CustomerForm
-from .forms import OrderForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -14,45 +10,49 @@ from django.views.generic import (
 )
 from django.db.models import Count
 from django.utils import timezone
+from .models import Customer, Order, ProductDetails, Stock, Product
+from .forms import CustomerForm, OrderForm
 
-
+# Dashboard
+@login_required
 def dashboard(request):
     today = timezone.now().date()
     user_branch = request.user.branch
 
     todays_orders = Order.objects.filter(
-        branch = user_branch,
-        created_at__date =today
+        branch=user_branch,
+        created_at__date=today
     ).order_by('-created_at')
 
     low_stock = Stock.objects.filter(
         branch=user_branch,
-        location_type = 'showroom',
+        location_type='showroom',
         quantity=0
     )
 
     top_products = ProductDetails.objects.filter(
         orderitem__order__branch=user_branch
     ).annotate(
-        order_count = Count('orderitem')
+        order_count=Count('orderitem')
     ).order_by('-order_count')[:1]
 
     context = {
-        'todays_orders':todays_orders,
+        'todays_orders': todays_orders,
         'todays_count': todays_orders.count(),
         'low_stock': low_stock,
-        'top_products':top_products,
+        'top_products': top_products,
     }
     return render(request, 'dashboard.html', context)
 
-# Order List View
-class OrderListView(ListView):
+
+# Order
+class OrderListView(LoginRequiredMixin, ListView):
     model = Order
-    template_name= "orders/orders.html"
+    template_name = "orders/orders.html"
     context_object_name = "orders"
 
-# Create Order
-class OrderCreateView(CreateView):
+
+class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderForm
     template_name = 'orders/order_create.html'
@@ -60,35 +60,34 @@ class OrderCreateView(CreateView):
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
-        form.instance.branch = self.request.user.branch # need branch to fill the form
+        form.instance.branch = self.request.user.branch
         return super().form_valid(form)
 
-    def customer_list(request):
-        return render(request, "customers/customer_list.html")
 
-# Order Update
-class OrderUpdateView(UpdateView):
-    model=Order
-    form_class=OrderForm
-    template_name='orders/order_create.html'
-    success_url='/orders/'
-    pk_url_kwarg='pk'
+class OrderUpdateView(LoginRequiredMixin, UpdateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'orders/order_create.html'
+    success_url = '/orders/'
+    pk_url_kwarg = 'pk'
 
-# Order Delete
-class OrderDeleteView(DeleteView):
-    model=Order
+
+class OrderDeleteView(LoginRequiredMixin, DeleteView):
+    model = Order
     template_name = 'orders/order_detail.html'
-    success_url='/orders/'
-    pk_url_kwarg='pk'
+    success_url = '/orders/'
+    pk_url_kwarg = 'pk'
 
-# Order Detail
-class OrderDetailView(DetailView):
-    model=Order
-    template_name='orders/order_detail.html'
-    context_object_name='order'
-    pk_url_kwarg='pk'
 
-# Search - List Customer
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    model = Order
+    template_name = 'orders/order_detail.html'
+    context_object_name = 'order'
+    pk_url_kwarg = 'pk'
+
+
+# Customer
+@login_required
 def customer_list(request):
     search_query = request.GET.get("search", "")
     if search_query:
@@ -104,7 +103,7 @@ def customer_list(request):
     )
 
 
-# 2. Add Customer
+@login_required
 def customer_create(request):
     if request.method == "POST":
         form = CustomerForm(request.POST)
@@ -120,7 +119,7 @@ def customer_create(request):
     )
 
 
-# 3. Edit Customer
+@login_required
 def customer_update(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == "POST":
@@ -137,7 +136,7 @@ def customer_update(request, pk):
     )
 
 
-# 4. Delete Customer
+@login_required
 def customer_delete(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == "POST":
@@ -148,7 +147,7 @@ def customer_delete(request, pk):
     )
 
 
-# 5. Customer Detail
+@login_required
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     customer_orders = Order.objects.filter(customer=customer)
@@ -159,7 +158,8 @@ def customer_detail(request, pk):
     )
 
 
-class ProductListView(ListView):
+# Product
+class ProductListView(LoginRequiredMixin, ListView):
     model = ProductDetails
     template_name = "products/products.html"
     context_object_name = "products"
@@ -180,21 +180,8 @@ class ProductListView(ListView):
         context["query"] = self.request.GET.get("search", "")
         return context
 
-from django.contrib.auth.decorators import login_required
 
-@login_required
-def profile_view(request):
-    user = request.user
-    if request.method == 'POST':
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.email = request.POST.get('email')
-        user.save()
-        return redirect('profile_view')
-
-    return render(request, 'profile.html', {'user': user})
-
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = ProductDetails
     template_name = 'products/product_detail.html'
     context_object_name = 'product'
@@ -206,3 +193,17 @@ class ProductDetailView(DetailView):
             product=self.object.product
         )
         return context
+
+
+# Profile
+@login_required
+def profile_view(request):
+    user = request.user
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        return redirect('profile_view')
+
+    return render(request, 'profile.html', {'user': user})
