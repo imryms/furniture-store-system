@@ -2,4 +2,21 @@
 
 {% block content %}
 
-{% endblock %}
+{% if form.instance.id %}
+  <h2>Edit Order</h2>
+  {% else %}
+  <h2>Create Order</h2>
+{% endif %}
+
+<form method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+
+  {% if from.instance.id %}
+    <button>Update Order</button>
+    {% else %}
+    <button>Create Order</button>
+  {% endif %}
+</form>
+
+{% endblock content %}

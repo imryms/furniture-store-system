@@ -1,5 +1,5 @@
 .env
-store/migrations
+migrations
 __pycache__
 a.txt
 

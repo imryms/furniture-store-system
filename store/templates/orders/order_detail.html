@@ -1,5 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <h2>Order Details</h2>
+
+  <div class="order-details">
+  <h3>{{order.order_id}}</h3>
+
+  <div class='customer-Details'>
+    <h5>Customer</h5>
+    <p><strong>Name: </strong>  {{order.customer.name}}</p>
+    <p><strong>Phone number: </strong>{{order.customer.phone}}</p>
+    <p><strong>Email: </strong>{{order.customer.email}}</p>
+  </div>
+
+  <p><strong>Branch:</strong>  {{order.branch}}</p>
+  <p><strong>Created by: </strong>{{order.created_by}}</p>
+  <p><strong>order type: </strong>{{order.type}}</p>
+  <p><strong>Status: </strong>{{order.status}}</p>
+  <p><strong>Total amount: </strong>{{order.total_amount}}</p>
+  <p><strong>Created date: </strong>{{order.created_at}}</p>
+
+  <div class='detail-btn'>
+    <a href="/orders/{{order.id}}/update"></a>
+    <form method="post" action="/orders/{{order.id}}/delete">
+      {% csrf_token %}
+      <button>Delete Order</button>
+    </form>
+  </div>
+  </div>
 
 {% endblock %}
