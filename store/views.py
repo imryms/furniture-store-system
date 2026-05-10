@@ -4,6 +4,7 @@ from .models import Order
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Customer, Order, ProductDetails
 from .forms import CustomerForm
+from .forms import OrderForm
 from django.views.generic import (
     ListView,
     DetailView,
@@ -22,16 +23,48 @@ class ProductListView(ListView):
     template_name: "products.html"
     context_object_name = "products"
 
-
+# Order List View
 class OrderListView(ListView):
     model = Order
-    template_name: "orders/orders.html"
+    template_name = "orders/orders.html"
     context_object_name = "orders"
 
+# Create Order
+class OrderCreateView(CreateView):
+    model = Order
+    form_class = OrderForm
+    template_name = 'orders/order_create.html'
+    success_url = '/orders/'
 
-def customer_list(request):
-    return render(request, "customers/customer_list.html")
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.branch = self.request.user.branch # need branch to fill the form
+        return super().form_valid(form)
 
+    def customer_list(request):
+        return render(request, "customers/customer_list.html")
+
+# Order Update
+class OrderUpdateView(UpdateView):
+    model=Order
+    form_class=OrderForm
+    template_name='orders/order_create.html'
+    success_url='/orders/'
+    pk_url_kwarg='pk'
+
+# Order Delete
+class OrderDeleteView(DeleteView):
+    model=Order
+    template_name = 'orders/order_detail.html'
+    success_url='/orders/'
+    pk_url_kwarg='pk'
+
+# Order Detail
+class OrderDetailView(DetailView):
+    model=Order
+    template_name='orders/order_detail.html'
+    context_object_name='order'
+    pk_url_kwarg='pk'
 
 # Search - List Customer
 def customer_list(request):
