@@ -45,13 +45,6 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-
-
-class ProductListView(ListView):
-    model = Product
-    template_name= "products.html"
-    context_object_name = "products"
-
 # Order List View
 class OrderListView(ListView):
     model = Order
@@ -196,12 +189,10 @@ def profile_view(request):
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')
         user.email = request.POST.get('email')
-        if hasattr(user, 'branch'):
-            user.branch = request.POST.get('branch')
         user.save()
         return redirect('profile_view')
 
-    return render(request, 'profile.html')
+    return render(request, 'profile.html', {'user': user})
 
 class ProductDetailView(DetailView):
     model = ProductDetails
