@@ -1,120 +1,138 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-body {
-  background: #f5f5f5;
-}
+body { background: #f7f7f7; }
 
-.layout {
-  display: flex;
-  height: 100vh;
-}
+.layout { display: flex; height: 100vh; }
 
 /* SIDEBAR */
 .sidebar {
-  width: 220px;
-  background: #fff;
-  border-right: 1px solid #e8e8e8;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 20px 12px;
-  height: 100vh;
+    width: 220px;
+    flex-shrink: 0;
+    background: #fff;
+    border-right: 1px solid #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 12px;
+    height: 100vh;
 }
 
-.sidebar-top {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
+.sidebar-top { display: flex; flex-direction: column; gap: 8px; }
 
+/* LOGO */
 .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px;
-  margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #c0392b;
+    padding-bottom: 16px;
 }
+.logo img { width: 38px; height: 38px; }
+.logo h2 { font-size: 14px; font-weight: 600; color: #c0392b; }
+.logo p { font-size: 10px; color: #999; }
 
-.logo img {
-  width: 40px;
-  height: 40px;
-}
-
-.logo h2 {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.logo p {
-  font-size: 11px;
-  color: #999;
-}
-
-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+/* NAV */
+nav { display: flex; flex-direction: column; gap: 2px; }
 
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 14px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  color: #666;
-  transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: #666;
+    transition: all 0.15s;
 }
-
-.nav-item:hover {
-  background: #f5f5f5;
-  color: #1a1a1a;
-}
-
-.nav-item.active {
-  background: #f0f0f0;
-  color: #1a1a1a;
-  font-weight: 600;
-}
+.nav-item i { font-size: 16px; }
+.nav-item:hover { background: #fff0ef; color: #c0392b; }
+.nav-item.active { background: #fff0ef; color: #c0392b; }
 
 /* USER INFO */
 .user-info {
-  border-top: 1px solid #e8e8e8;
-  padding: 14px 8px;
+    border-top: 1px solid #f0f0f0;
+    padding-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.user-info a {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 10px 12px;
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.15s;
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+.user-card:hover { background: #f7f7f7; }
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff0ef;
+    color: #c0392b;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
 }
 
-.user-info a:hover {
-  background: #f5f5f5;
+.user-name { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+.user-branch { font-size: 10px; color: #999; }
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: none;
+    background: none;
+    color: #c0392b;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    transition: all 0.15s;
+}
+.logout-btn:hover { background: #fff0ef; }
+.logout-btn i { font-size: 14px; }
+
+/* CONTENT */
+.content {
+    flex: 1;
+    padding: 28px;
+    overflow-y: auto;
 }
 
-.user-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1a1a1a;
+/* PAGE HEADER */
+.page-header {
+    margin-bottom: 20px;
 }
-
-.user-branch {
-  font-size: 11px;
-  color: #999;
+.page-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #c0392b;
+}
+.page-header p {
+    font-size: 12px;
+    color: #999;
+    margin-top: 2px;
 }
 
 /* CONTENT */
