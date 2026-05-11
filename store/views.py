@@ -188,13 +188,16 @@ class ProductListView(LoginRequiredMixin, ListView):
 
         if stock_filter == "available":
             queryset = queryset.filter(
-                stock__branch=self.request.user.branch,
-                stock__quantity__gt=0
-            ).distinct()
+            stock__branch=self.request.user.branch,
+            stock__location_type='showroom',
+            stock__quantity__gt=0
+        ).distinct()
+
         elif stock_filter == "out_of_stock":
-            queryset = queryset.exclude(
+            queryset = queryset.filter(
                 stock__branch=self.request.user.branch,
-                stock__quantity__gt=0
+                stock__location_type='showroom',
+                stock__quantity=0
             ).distinct()
 
         return queryset
