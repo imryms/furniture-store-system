@@ -1,36 +1,80 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<a href="{% url 'customer_list' %}" style="text-decoration: none;">
-    <i class="bi bi-arrow-left" style="color: #000; font-size: 1.2rem;"></i>
+
+<a href="{% url 'customer_list' %}" class="form-back">
+    <i class="bi bi-arrow-left"></i> 
 </a>
 
-<h3>Customer: {{ customer.name }}</h3>
-<h4>Order History</h4>
+<div class="customer-top-card">
+    <div class="customer-info-wrap">
+        <div class="customer-avatar">
+            {{ customer.name|slice:":2"|upper }}
+        </div>
+        <div>
+            <div class="cname">{{ customer.name }}</div>
+            <div class="cmeta">
+                {{ customer.phone }}
+                {% if customer.email %}
+                    &nbsp;·&nbsp; {{ customer.email }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 
-{% if orders %}
-    <table border="1">
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Date</th>
-                <th>Status</th>
-                <th>Total Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for order in orders %}
-            <tr>
-                <td>#{{ order.id }}</td>
-                <td>{{ order.created_at|date:"d/m/Y" }}</td>
-                <td>{{ order.status }}</td>
-                <td>{{ order.total_price }} BHD</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>This customer has no orders yet.</p>
-{% endif %}
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-label">Total orders</div>
+        <div class="stat-val">{{ orders.count }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Total spent</div>
+        <div class="stat-val accent">
+            {% if total_spent %}{{ total_spent }} BHD{% else %}0 BHD{% endif %}
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Last order</div>
+        <div class="stat-val" style="font-size:14px; margin-top:4px;">
+            {% if last_order %}{{ last_order.created_at|date:"d/m/Y" }}{% else %}—{% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="orders-section-title">Order history</div>
+
+<div class="otable">
+    <div class="otable-head">
+        <span>Order</span>
+        <span>Date</span>
+        <span>Status</span>
+        <span>Total</span>
+        <span>Action</span>
+    </div>
+
+    {% for order in orders %}
+    <div class="orow">
+        <span class="oid">#{{ order.id }}</span>
+        <span class="odate">{{ order.created_at|date:"d/m/Y" }}</span>
+        <span>
+            {% if order.status == 'delivered' %}
+                <span class="badge badge-delivered">Delivered</span>
+            {% elif order.status == 'pending' %}
+                <span class="badge badge-pending">Pending</span>
+            {% elif order.status == 'cancelled' %}
+                <span class="badge badge-cancelled">Cancelled</span>
+            {% else %}
+                <span class="badge badge-default">{{ order.status }}</span>
+            {% endif %}
+        </span>
+        <span class="oprice">{{ order.total_price }} BHD</span>
+        <a href="{% url 'order_detail' order.pk %}" class="act-btn act-view">
+            <i class="bi bi-eye"></i>
+        </a>
+    </div>
+    {% empty %}
+    <div class="empty-orders">No orders found for this customer.</div>
+    {% endfor %}
+</div>
 
 {% endblock %}

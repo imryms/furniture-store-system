@@ -1,14 +1,50 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<a href="{% url 'customer_list' %}" style="text-decoration: none;">
-    <i class="bi bi-arrow-left" style="color: #000; font-size: 1.2rem;"></i>
+
+<a href="{% url 'customer_list' %}" class="form-back">
+    <i class="bi bi-arrow-left"></i>
 </a>
-                    <h4>{{ title }}</h4>
-                    <form method="POST">
-                        {% csrf_token %}
-                            {{ form.as_p }}
-                            <button type="submit" >Save</button>
-                    </form>
+
+<div class="form-card">
+    <div class="form-header">
+        <div class="form-header-icon">
+            <i class="bi bi-person-plus"></i>
+        </div>
+        <div>
+            <h1>{{ title }}</h1>
+            <p>Fill in the details below to save the record</p>
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-fields">
+            <div class="form-field">
+                <label>Full name <span class="req">*</span></label>
+                {{ form.name }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-field">
+                    <label>Phone <span class="req">*</span></label>
+                    {{ form.phone }}
+                </div>
+                <div class="form-field">
+                    <label>Email</label>
+                    {{ form.email }}
+                    <div class="field-hint">Optional</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <a href="{% url 'customer_list' %}" class="btn-cancel">Cancel</a>
+            <button type="submit" class="btn-save">
+                <i class="bi bi-floppy"></i> Save 
+            </button>
+        </div>
+    </form>
+</div>
 
 {% endblock %}
