@@ -3,13 +3,17 @@
 {% block content %}
 
 <div class="page-header">
-    <h1>Products</h1>
+    <div>
+        <h1>Products</h1>
+        <p>Browse and search available furniture</p>
+    </div>
 </div>
 
 <form method="GET">
+    
     <div class="search-bar">
-        <input type="text" name="search" placeholder="Search by name or code..." value="{{ query }}">
-        <button type="submit" class="search-btn">Search</button>
+        <input type="text" name="search" placeholder="Search by name, code or color..." value="{{ query }}">
+        <button type="submit">Search</button>
     </div>
 
     <div class="filters">
@@ -37,40 +41,40 @@
             <option value="out_of_stock" {% if selected_stock == "out_of_stock" %}selected{% endif %}>Out of Stock</option>
         </select>
 
-        <button type="submit" class="search-btn">Filter</button>
+        <button type="submit">Filter</button>
     </div>
 </form>
 
+<div class="product-list">
 {% for product in products %}
-<div class="product">
+<div class="product-card">
 
     <div class="product-img">
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.product.name }}" width="300">
-        {% endif %}
+            <img src="{{ product.image.url }}" alt="{{ product.product.name }}">
     </div>
 
     <div class="product-info">
-        <h3>{{ product.product.name }}</h3>
-        <p>{{ product.color }} — {{ product.size }}</p>
+        <h3 class="product-name">{{ product.product.name }}</h3>
+        <p class="product-variant">{{ product.color }} - {{ product.size }}</p>
         <p class="product-price">{{ product.price }} BHD</p>
 
         {% for s in product.stock_set.all %}
             {% if s.branch == user_branch and s.location_type == 'showroom' %}
                 {% if s.quantity > 0 %}
-                    <span class="available">✅ Available ({{ s.quantity }})</span>
+                    <span class="badge badge-paid">✅ Available ({{ s.quantity }})</span>
                 {% else %}
-                    <span class="unavailable">❌ Out of Stock</span>
+                    <span class="badge badge-unpaid">❌ Out of Stock</span>
                 {% endif %}
             {% endif %}
         {% endfor %}
     </div>
 
     <div class="product-actions">
-        <a href="{% url 'product_detail' product.id %}" class="order-button">View Details</a>
+        <a href="{% url 'product_detail' product.id %}" class="view-btn"> →</a>
     </div>
 
 </div>
 {% endfor %}
+</div>
 
 {% endblock %}

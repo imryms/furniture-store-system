@@ -51,12 +51,14 @@
     </div>
     {% for s in low_stock %}
     <div class="order-row">
-        <div class="out-icon"><i class="bi bi-exclamation-triangle"></i></div>
-        <div style="flex:1">
-            <span class="order-customer">{{ s.product_details.product.name }} — {{ s.product_details.color }}</span>
-            <p style="font-size:11px;color:#999">{{ s.branch }} · {{ s.location_type }}</p>
-        </div>
-        <span class="badge badge-unpaid">0 pcs</span>
+        <a href="{% url 'product_detail' s.product_details.id %}" class="order-row" style="text-decoration:none">
+    <div class="out-icon"><i class="bi bi-exclamation-triangle"></i></div>
+    <div style="flex:1">
+        <span class="order-customer">{{ s.product_details.product.name }} — {{ s.product_details.color }}</span>
+        <p style="font-size:11px;color:#999">{{ s.branch }} · {{ s.location_type }}</p>
+    </div>
+    <span class="badge badge-unpaid">0 pcs</span>
+        </a>
     </div>
     {% empty %}
     <p class="empty">All products are available ✅</p>
