@@ -1,0 +1,109 @@
+.add-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #8e261a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+}
+.add-btn:hover { background: #7a1f15; }
+
+.ctable {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.ctable-head {
+    display: grid;
+    grid-template-columns: 1fr 120px 180px 110px;
+    padding: 10px 16px;
+    border-bottom: 1.5px solid #8e261a;
+    font-size: 11px;
+    font-weight: 600;
+    color: #8e261a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.crow {
+    display: grid;
+    grid-template-columns: 1fr 120px 180px 110px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    align-items: center;
+    font-size: 13px;
+    transition: background 0.1s;
+}
+.crow:last-child { border: none; }
+.crow:hover { background: #fafafa; }
+
+.cname { font-weight: 500; color: #1a1a1a; }
+.cphone { color: #666; font-size: 12px; }
+.cemail { color: #666; font-size: 12px; }
+
+.actions { display: flex; gap: 6px; }
+
+.act-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    text-decoration: none;
+    background: none;
+}
+.act-view { background: #f0f0f0; color: #555; }
+.act-edit { background: #fff0ef; color: #8e261a; }
+.act-del  { background: #fff0f0; color: #cc0000; }
+
+.search-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    flex: 1;
+    height: 38px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 0 14px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color 0.15s;
+}
+
+.search-bar input:focus {
+    border-color: #8e261a;
+}
+
+.search-bar button {
+    height: 38px;
+    padding: 0 18px;
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    color: #666;
+    transition: all 0.15s;
+}
+
+.search-bar button:hover {
+    border-color: #8e261a;
+    color: #8e261a;
+}

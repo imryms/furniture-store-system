@@ -1,54 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Customer Management</h1>
-<form method="GET" action="{% url 'customer_list' %}">
+
+<div class="page-header">
+    <div>
+        <h1>Customers</h1>
+        <p>Manage your customer records</p>
+    </div>
+    <a href="{% url 'customer_create' %}" class="add-btn">
+        <i class="bi bi-plus"></i> Add Customer
+    </a>
+</div>
+
+<form method="GET" action="{% url 'customer_list' %}" class="search-bar">
     <input type="text" name="search" placeholder="Search by name or phone..." value="{{ query }}">
-    <button type="submit">
-        <i class="bi bi-search" style="color: #000;"></i>
-    </button>
+    <button type="submit">Search</button>
 </form>
-<br>
-<a href="{% url 'customer_create' %}">
-    + Add New Customer
-</a>
-<br><br>
-<table border="1">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for customer in customers %}
-        <tr>
-            <td>{{ customer.name }}</td>
-            <td>{{ customer.phone }}</td>
-            <td>{{ customer.email|default:"-" }}</td>
-            <td>
-                <a href="{% url 'customer_detail' customer.pk %}">
-                    <i class="bi bi-receipt" style="color: #000;"></i>
-                </a> |
 
-                <a href="{% url 'customer_update' customer.pk %}">
-                    <i class="bi bi-pencil" style="color: #000;"></i>
-                </a> |
+<div class="ctable">
+    <div class="ctable-head">
+        <span>Name</span>
+        <span>Phone</span>
+        <span>Email</span>
+        <span>Actions</span>
+    </div>
 
-                <form action="{% url 'customer_delete' customer.pk %}" method="POST" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" style="background:none; border:none; padding:0; cursor:pointer;">
-                        <i class="bi bi-trash" style="color: #000;"></i>
-                    </button>
-                </form>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4">No customers found.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    {% for customer in customers %}
+    <div class="crow">
+        <span class="cname">{{ customer.name }}</span>
+        <span class="cphone">{{ customer.phone }}</span>
+        <span class="cemail">{{ customer.email|default:"-" }}</span>
+        <div class="actions">
+            <a href="{% url 'customer_detail' customer.pk %}" class="act-btn act-view">
+                <i class="bi bi-receipt"></i>
+            </a>
+            <a href="{% url 'customer_update' customer.pk %}" class="act-btn act-edit">
+                <i class="bi bi-pencil"></i>
+            </a>
+            <form action="{% url 'customer_delete' customer.pk %}" method="POST" style="display:inline">
+                {% csrf_token %}
+                <button type="submit" class="act-btn act-del">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+    {% empty %}
+    <div style="padding:16px;font-size:13px;color:#999">No customers found.</div>
+    {% endfor %}
+</div>
+
 {% endblock %}
