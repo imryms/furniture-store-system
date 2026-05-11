@@ -107,3 +107,297 @@
     border-color: #8e261a;
     color: #8e261a;
 }
+
+.form-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    padding: 24px;
+    max-width: 560px;
+}
+
+.form-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    margin-bottom: 20px;
+    transition: color 0.15s;
+}
+.form-back:hover { color: #1a1a1a; }
+
+.form-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-header-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #fff0ef;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8e261a;
+    font-size: 17px;
+}
+
+.form-header h1 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.form-header p {
+    font-size: 12px;
+    color: #999;
+    margin: 2px 0 0;
+}
+
+.form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 5px;
+}
+
+.form-field label .req { color: #8e261a; margin-left: 2px; }
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-field textarea {
+    height: auto;
+    padding: 10px 12px;
+    resize: vertical;
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+    border-color: #8e261a;
+    box-shadow: 0 0 0 3px rgba(142, 38, 26, 0.08);
+}
+
+.form-field input.optional,
+.form-field select.optional,
+.form-field textarea.optional {
+    border-style: dashed;
+}
+
+.form-field .field-hint {
+    font-size: 11px;
+    color: #bbb;
+    margin-top: 4px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.form-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.btn-cancel {
+    height: 36px;
+    padding: 0 16px;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    color: #888;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.15s;
+}
+.btn-cancel:hover { border-color: #ccc; color: #444; }
+
+.btn-save {
+    height: 36px;
+    padding: 0 20px;
+    background: #8e261a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.15s;
+}
+.btn-save:hover { background: #7a1f15; }
+
+.customer-top-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.customer-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff0ef;
+    color: #8e261a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.customer-info-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.customer-info-wrap .cname {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.customer-info-wrap .cmeta {
+    font-size: 12px;
+    color: #999;
+    margin-top: 3px;
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.stat-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
+    padding: 14px 16px;
+}
+
+.stat-card .stat-label {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.stat-card .stat-val {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.stat-card .stat-val.accent { color: #8e261a; }
+
+.orders-section-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 10px;
+}
+
+.badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.badge-delivered { background: #eaf3de; color: #3b6d11; }
+.badge-pending   { background: #faeeda; color: #854f0b; }
+.badge-cancelled { background: #fcebeb; color: #a32d2d; }
+.badge-default   { background: #f0f0f0; color: #555; }
+
+.otable { background: #fff; border: 1px solid #f0f0f0; border-radius: 10px; overflow: hidden; }
+
+.otable-head {
+    display: grid;
+    grid-template-columns: 80px 1fr 130px 120px 70px;
+    padding: 9px 16px;
+    border-bottom: 1.5px solid #8e261a;
+    font-size: 11px;
+    font-weight: 600;
+    color: #8e261a;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.orow {
+    display: grid;
+    grid-template-columns: 80px 1fr 130px 120px 70px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    align-items: center;
+    font-size: 13px;
+    transition: background 0.1s;
+}
+.orow:last-child { border: none; }
+.orow:hover { background: #fafafa; }
+
+.oid { font-weight: 500; color: #1a1a1a; }
+.odate { color: #888; font-size: 12px; }
+.oprice { font-weight: 500; color: #1a1a1a; }
+
+.empty-orders {
+    padding: 24px 16px;
+    font-size: 13px;
+    color: #bbb;
+    text-align: center;
+}
