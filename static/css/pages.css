@@ -1,4 +1,3 @@
-/* ───────────────── GLOBAL BUTTONS ───────────────── */
 
 .add-btn {
     display: flex;
@@ -20,7 +19,6 @@
     background: #7a1f15;
 }
 
-/* ───────────────── TABLES ───────────────── */
 
 .ctable,
 .otable {
@@ -73,7 +71,6 @@
     font-size: 12px;
 }
 
-/* ───────────────── ACTION BUTTONS ───────────────── */
 
 .actions {
     display: flex;
@@ -109,7 +106,6 @@
     color: #cc0000;
 }
 
-/* ───────────────── SEARCH BAR ───────────────── */
 
 .search-bar {
     display: flex;
@@ -151,7 +147,6 @@
     color: #8e261a;
 }
 
-/* ───────────────── FILTERS ───────────────── */
 
 .filters {
     display: flex;
@@ -193,7 +188,6 @@
     background: #7a1f15;
 }
 
-/* ───────────────── FORM CARD ───────────────── */
 
 .form-card {
     background: #fff;
@@ -252,7 +246,6 @@
     margin: 2px 0 0;
 }
 
-/* ───────────────── FORM FIELDS ───────────────── */
 
 .form-fields {
     display: flex;
@@ -316,7 +309,6 @@
     gap: 12px;
 }
 
-/* ───────────────── FORM FOOTER ───────────────── */
 
 .form-footer {
     display: flex;
@@ -369,8 +361,6 @@
     background: #7a1f15;
 }
 
-/* ───────────────── CUSTOMER CARD ───────────────── */
-
 .customer-top-card {
     background: #fff;
     border: 1px solid #f0f0f0;
@@ -413,7 +403,6 @@
     margin-top: 3px;
 }
 
-/* ───────────────── STATS ───────────────── */
 
 .stats-row {
     display: grid;
@@ -448,7 +437,6 @@
     color: #8e261a;
 }
 
-/* ───────────────── BADGES ───────────────── */
 
 .badge {
     display: inline-block;
@@ -478,7 +466,6 @@
     color: #555;
 }
 
-/* ───────────────── ORDERS TABLE ───────────────── */
 
 .orders-section-title {
     font-size: 13px;
@@ -531,7 +518,6 @@
     text-align: center;
 }
 
-/* ───────────────── PRODUCTS ───────────────── */
 
 .product-list {
     display: flex;
@@ -602,4 +588,116 @@
 .view-btn:hover {
     background: #8e261a;
     color: #fff;
+}
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #999;
+    text-decoration: none;
+    margin-bottom: 6px;
+}
+.back-link:hover { color: #8e261a; }
+
+.detail-layout {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+}
+
+.detail-img img {
+    width: 100%;
+    max-width: 400px;
+    height: 300px;
+    object-fit: contain;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+
+.detail-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-meta {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.meta-row {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    align-items: flex-start;
+}
+.meta-label {
+    font-weight: 600;
+    color: #8e261a;
+    min-width: 60px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-top: 2px;
+}
+.meta-value { color: #1a1a1a; flex: 1; }
+.meta-value.product-price { font-size: 18px; font-weight: 600; color: #8e261a; }
+
+.detail-section {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
+    padding: 16px;
+}
+
+.detail-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8e261a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid #8e261a;
+}
+
+.colors { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.color-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid #e8e8e8;
+    text-decoration: none;
+    font-size: 12px;
+    color: #666;
+    transition: all 0.15s;
+}
+.color-btn:hover { border-color: #8e261a; color: #8e261a; }
+.color-btn.active { background: #8e261a; color: #fff; border-color: #8e261a; }
+
+.stock-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 13px;
+}
+.stock-row:last-child { border: none; }
+.stock-branch { font-weight: 500; color: #1a1a1a; margin-right: 8px; }
+.stock-type {
+    font-size: 10px;
+    color: #999;
+    background: #f5f5f5;
+    padding: 2px 8px;
+    border-radius: 20px;
 }

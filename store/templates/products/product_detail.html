@@ -3,53 +3,68 @@
 {% block content %}
 
 <div class="page-header">
-    <a href="/products/" style="text-decoration: none;">
-    <i class="bi bi-arrow-left" style="color: #000; font-size: 1.2rem;"></i>
-</a>
-    <h1>{{ product.product.name }}</h1>
-    <p>{{ product.color }} — {{ product.size }}</p>
+    <div>
+        <a href="/products/" class="back-link">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h1>{{ product.product.name }}</h1>
+        <p>{{ product.color }} — {{ product.size }}</p>
+    </div>
 </div>
 
 <div class="detail-layout">
 
     <div class="detail-img">
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.product.name }}" width="400">
-        {% endif %}
+            <img src="{{ product.image.url }}" alt="{{ product.product.name }}">
     </div>
 
     <div class="detail-info">
-        <p><strong>Code:</strong> {{ product.code }}</p>
-        <p><strong>Price:</strong> {{ product.price }} BHD</p>
-        <p><strong>Details:</strong> {{ product.product.product_details }}</p>
 
-        <hr>
+        <div class="detail-meta">
+            <div class="meta-row">
+                <span class="meta-label">Code</span>
+                <span class="meta-value">{{ product.code }}</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">Price</span>
+                <span class="meta-value product-price">{{ product.price }} BHD</span>
+            </div>
+            <div class="meta-row">
+                <span class="meta-label">Details</span>
+                <span class="meta-value">{{ product.product.product_details }}</span>
+            </div>
+        </div>
 
-        <h3>Available Colors</h3>
-        <div class="colors">
-            {% for variant in variants %}
-            <a href="{% url 'product_detail' variant.id %}"
-              class="color-btn {% if variant.id == product.id %}active{% endif %}">
-                {{ variant.color }}
-            </a>
+        <div class="detail-section">
+            <h3 class="detail-section-title">Available Colors</h3>
+            <div class="colors">
+                {% for variant in variants %}
+                <a href="{% url 'product_detail' variant.id %}"
+                   class="color-btn {% if variant.id == product.id %}active{% endif %}">
+                    {{ variant.color }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="detail-section-title">Stock Availability</h3>
+            {% for s in stocks %}
+            <div class="stock-row">
+                <div>
+                    <span class="stock-branch">{{ s.branch }}</span>
+                    <span class="stock-type">{{ s.location_type }}</span>
+                </div>
+                {% if s.quantity > 0 %}
+                    <span class="badge badge-paid">{{ s.quantity }} pcs</span>
+                {% else %}
+                    <span class="badge badge-unpaid">Out of Stock</span>
+                {% endif %}
+            </div>
             {% endfor %}
         </div>
 
-        <h3>Stock Availability</h3>
-        {% for s in stocks %}
-        <div class="stock-row">
-            <span>{{ s.branch }} — {{ s.location_type }}</span>
-            {% if s.quantity > 0 %}
-                <span class="available">✅ {{ s.quantity }} pcs</span>
-            {% else %}
-                <span class="unavailable">❌ Out of Stock</span>
-            {% endif %}
-        </div>
-        {% endfor %}
-
-        <hr>
     </div>
-
 </div>
 
 {% endblock %}
