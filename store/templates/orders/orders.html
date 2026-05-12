@@ -29,7 +29,7 @@
     <tbody>
       {% for order in orders  %}
       <tr>
-        <td>{{ order.id }}</td>
+        <td>{{ order.order_number }}</td>
         <td>{{ order.customer.name }}</td>
         <td>{{ order.total_amount}}</td>
         <td>{{ order.status }}</td>
@@ -41,6 +41,9 @@
       {% endfor %}
     </tbody>
   </table>
+
 </div>
+
+<a href="{% url 'order_create' %}" class='create-order'>Create Order</a>
 
 {% endblock %}
