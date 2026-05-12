@@ -3,6 +3,7 @@ from . import views
 from .views import ProductListView, ProductDetailView
 
 urlpatterns = [
+
     # Dashboard
     path("", views.dashboard, name="dashboard"),
 
@@ -18,11 +19,16 @@ urlpatterns = [
     path("customers/<int:pk>/", views.customer_detail, name="customer_detail"),
 
     # Orders
+    path("orders/", views.OrderListView.as_view(),name='order_list'),
     path("orders/", views.OrderListView.as_view(), name="order_list"),
     path("orders/create/", views.OrderCreateView.as_view(), name="order_create"),
     path("orders/details/<int:pk>/", views.OrderDetailView.as_view(), name="order_detail"),
     path("orders/update/<int:pk>/", views.OrderUpdateView.as_view(), name="order_update"),
     path("orders/delete/<int:pk>/", views.OrderDeleteView.as_view(), name="order_delete"),
+
+    # Products
+    path('products/', ProductListView.as_view()),
+    path('products/<int:pk>/', ProductDetailView.as_view(), name='product_detail'),
 
     # Profile
     path("profile/", views.profile_view, name="profile_view"),

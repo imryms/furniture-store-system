@@ -77,8 +77,12 @@ class Order(models.Model):
     note = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def order_number(self):
+        return f"OR-{self.id:03d}"
+
     def __str__(self):
-        return f"Order #{self.id} - {self.customer.name}"
+        return f"{self.order_number} - {self.customer.name}"
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)

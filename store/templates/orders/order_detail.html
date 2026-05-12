@@ -4,27 +4,46 @@
   <h2>Order Details</h2>
 
   <div class="order-details">
-  <h3>{{order.order_id}}</h3>
+  <h3>Order #{{order.id}}</h3>
 
   <div class='customer-Details'>
-    <h5>Customer</h5>
+    <h3>Customer</h3>
     <p><strong>Name: </strong>  {{order.customer.name}}</p>
     <p><strong>Phone number: </strong>{{order.customer.phone}}</p>
     <p><strong>Email: </strong>{{order.customer.email}}</p>
   </div>
 
+  <hr>
+
   <p><strong>Branch:</strong>  {{order.branch}}</p>
   <p><strong>Created by: </strong>{{order.created_by}}</p>
-  <p><strong>order type: </strong>{{order.type}}</p>
+  <p><strong>Order type: </strong>{{order.order_type}}</p>
+
+  <hr>
+
+  <div class='items-Details'>
+    <h3>Order Items: </h3>
+    {% for item in order.items.all %}
+    <div>
+        <p><strong>Product: </strong> {{ item.product_details.product.name }} - {{ item.product_details.code }}</p>
+        <p><strong>Quantity: </strong> {{ item.quantity }}</p>
+        <p><strong>Unit Price: </strong> {{ item.unit_price }} BHD</p>
+    </div>
+    <hr>
+    {% empty %}
+        <p>No items in this order.</p>
+    {% endfor %}
+  </div>
+
   <p><strong>Status: </strong>{{order.status}}</p>
-  <p><strong>Total amount: </strong>{{order.total_amount}}</p>
-  <p><strong>Created date: </strong>{{order.created_at}}</p>
+  <p><strong>Total amount: </strong>{{order.total_amount}} BHD</p>
+  <p><strong>Created date: </strong>{{order.created_at|date:'Y-m-d'}}</p>
 
   <div class='detail-btn'>
-    <a href="/orders/{{order.id}}/update"></a>
-    <form method="post" action="/orders/{{order.id}}/delete">
+      <a href="{% url 'order_update' order.id %}">Update Order</a>
+      <form method="post" action="{% url 'order_delete' order.id %}">
       {% csrf_token %}
-      <button>Delete Order</button>
+      <button type="submit">Delete Order</button>
     </form>
   </div>
   </div>

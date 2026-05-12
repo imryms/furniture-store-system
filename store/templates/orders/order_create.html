@@ -1,22 +1,55 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
+<div class="form-container">
+  <h2>{{ title }}</h2>
 
-{% if form.instance.id %}
-  <h2>Edit Order</h2>
-  {% else %}
-  <h2>Create Order</h2>
-{% endif %}
+  <form method="post">
+    {% csrf_token %}
 
-<form method="post">
-  {% csrf_token %}
-  {{form.as_p}}
+    {% if customer_form %}
+    <h4>Customer Info</h4>
+    {{ customer_form.as_p }}
+    <hr>
+    {% endif %}
 
-  {% if from.instance.id %}
-    <button>Update Order</button>
-    {% else %}
-    <button>Create Order</button>
-  {% endif %}
-</form>
+    <h4>Order Info</h4>
+    {{ form.as_p }}
 
-{% endblock content %}
+    <hr>
+
+    <h4>Order Items</h4>
+    {{ formset.management_form }}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Stock</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item_form in formset %}
+        <tr>
+          {{ item_form.id }}
+          <td>{{ item_form.product_details }}</td>
+          <td>{{ item_form.stock }}</td>
+          <td>{{ item_form.quantity }}</td>
+          <td>{{ item_form.unit_price }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div>
+      <button type="submit" name="add_item" class="btn add-item">Add Item</button>
+      <button type="submit" class="btn btn-submit">{{ submit_label|default:"Save Order" }}</button>
+      <button type="button" class="btn cancel" onclick="window.location.href=window.location.href">Cancel</button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}
