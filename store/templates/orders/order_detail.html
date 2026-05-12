@@ -7,7 +7,7 @@
   <h3>{{order.order_id}}</h3>
 
   <div class='customer-Details'>
-    <h5>Customer</h5>
+    <h3>Customer</h3>
     <p><strong>Name: </strong>  {{order.customer.name}}</p>
     <p><strong>Phone number: </strong>{{order.customer.phone}}</p>
     <p><strong>Email: </strong>{{order.customer.email}}</p>
@@ -21,7 +21,7 @@
   <p><strong>Created date: </strong>{{order.created_at}}</p>
 
   <div class='detail-btn'>
-    <a href="/orders/{{order.id}}/update"></a>
+    <a href="/orders/update/{{order.id}}/">Update Order</a>
     <form method="post" action="/orders/{{order.id}}/delete">
       {% csrf_token %}
       <button>Delete Order</button>

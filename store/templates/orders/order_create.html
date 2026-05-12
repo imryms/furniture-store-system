@@ -1,22 +1,67 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ title }}{% endblock %}
+
 {% block content %}
+<div class="form-container">
+  <h2>{{ title }}</h2>
 
-{% if form.instance.id %}
-  <h2>Edit Order</h2>
-  {% else %}
-  <h2>Create Order</h2>
-{% endif %}
-
-<form method="post">
-  {% csrf_token %}
-  {{form.as_p}}
-
-  {% if from.instance.id %}
-    <button>Update Order</button>
-    {% else %}
-    <button>Create Order</button>
+  {% if form.errors or customer_form.errors or formset.errors %}
+  <div class="alert">
+    <strong>Please fix the following errors:</strong>
+    {% if customer_form.errors %}{{ customer_form.errors }}{% endif %}
+    {% if form.errors %}{{ form.errors }}{% endif %}
+    {% for error in formset.errors %}
+      {% if error %}{{ error }}{% endif %}
+    {% endfor %}
+    {% if formset.non_form_errors %}{{ formset.non_form_errors }}{% endif %}
+  </div>
   {% endif %}
-</form>
 
-{% endblock content %}
+  <form method="post">
+    {% csrf_token %}
+
+    {% if customer_form %}
+    <h5 class="mt-3">Customer Info</h5>
+    {{ customer_form.as_p }}
+    <hr>
+    {% endif %}
+
+    <h5>Order Info</h5>
+    {{ form.as_p }}
+
+    <h5>Order Items</h5>
+    {{ formset.management_form }}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Stock</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          {% if customer_form %}<th>Delete</th>{% endif %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for item_form in formset %}
+        <tr>
+          {{ item_form.id }}
+          <td>{{ item_form.product_details }}</td>
+          <td>{{ item_form.stock }}</td>
+          <td>{{ item_form.quantity }}</td>
+          <td>{{ item_form.unit_price }}</td>
+          {% if customer_form %}<td>{{ item_form.DELETE }}</td>{% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div>
+      <button type="submit" name="add_item" class="btn btn-primary">Add Item</button>
+      <button type="submit" class="btn btn-success">{{ submit_label|default:"Save Order" }}</button>
+      <button type="button" class="btn btn-secondary" onclick="window.location.href=window.location.href">Cancel</button>
+    </div>
+
+  </form>
+</div>
+{% endblock %}
