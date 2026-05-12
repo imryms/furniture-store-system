@@ -114,7 +114,7 @@ nav { display: flex; flex-direction: column; gap: 2px; }
     overflow-y: auto;
 }
 
-.page-header {
+ .page-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -131,7 +131,7 @@ nav { display: flex; flex-direction: column; gap: 2px; }
     margin-top: 2px;
 }
 
-.search-container {
+/* .search-container {
   margin-bottom: 25px;
 }
 
@@ -164,50 +164,83 @@ nav { display: flex; flex-direction: column; gap: 2px; }
 .search-container button:hover {
     background-color: #000;
     color: #fff;
-}
+} */
+
 
 .order-table {
     background: #fff;
-    border-radius: 12px;
-    border: 1px solid #eee;
+    border: 1px solid #f0f0f0;
+    border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
 .order-table table {
     width: 100%;
     border-collapse: collapse;
-    text-align: left;
+}
+
+.order-table thead tr {
+    display: grid;
+    grid-template-columns: 100px 1fr 120px 110px 120px 70px;
+    padding: 10px 16px;
+    border-bottom: 1.5px solid #8e261a;
 }
 
 .order-table thead th {
-    background-color: #f8f9fa;
-    padding: 15px 20px;
-    color: #555;
+    font-size: 11px;
     font-weight: 600;
-    font-size: 13px;
+    color: #8e261a;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    border-bottom: 1px solid #eee;
+    background: none;
+    padding: 0;
+}
+
+.order-table thead th,
+.order-table tbody td {
+    font-size: 13px;
+    padding: 0;
+    border: none;
+    text-align: center;
+}
+
+.order-table tbody tr {
+    display: grid;
+    grid-template-columns: 100px 1fr 120px 110px 120px 70px;
+    padding: 11px 16px;
+    border-bottom: 1px solid #f5f5f5;
+    align-items: center;
+    font-size: 13px;
+    transition: background 0.1s;
+}
+
+.order-table tbody tr:hover {
+    background: #fafafa;
+}
+
+.order-table tbody tr:last-child {
+    border: none;
 }
 
 .order-table tbody td {
-    padding: 15px 20px;
-    border-bottom: 1px solid #f9f9f9;
+    padding: 0;
+    font-size: 13px;
     color: #333;
-    font-size: 14px;
-    vertical-align: middle;
+    border: none;
 }
 
+
 .order-details{
-  background-color: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  max-width: 800px;
-  margin: 20px 0;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin: 20px 0;
 }
+
+
 
 .search-container input {
     width: 100%;
