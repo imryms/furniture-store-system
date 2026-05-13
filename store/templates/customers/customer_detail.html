@@ -2,7 +2,7 @@
 {% block content %}
 
 <a href="{% url 'customer_list' %}" class="form-back">
-    <i class="bi bi-arrow-left"></i> 
+    <i class="bi bi-arrow-left"></i>
 </a>
 
 <div class="customer-top-card">
@@ -67,8 +67,8 @@
                 <span class="badge badge-default">{{ order.status }}</span>
             {% endif %}
         </span>
-        <span class="oprice">{{ order.total_price }} BHD</span>
-        <a href="{% url 'order_detail' order.pk %}" class="act-btn act-view">
+<span class="oprice">{{ order.total_amount|default:"0.00" }} BHD</span>
+   <a href="{% url 'order_detail' order.pk %}" class="act-btn act-view">
             <i class="bi bi-eye"></i>
         </a>
     </div>
