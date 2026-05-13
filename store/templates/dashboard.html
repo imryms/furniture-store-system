@@ -34,7 +34,7 @@
     </div>
     {% for order in todays_orders %}
     <div class="order-row">
-        <span class="order-id">#{{ order.id }}</span>
+        <span class="order-id">#{{ order.order_number }}</span>
         <span class="order-customer">{{ order.customer.name }}</span>
         <span class="badge badge-type">{{ order.order_type }}</span>
         <span class="badge badge-{{ order.status }}">{{ order.status }}</span>

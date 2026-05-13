@@ -1,3 +1,25 @@
+from django.views import View
+from django.contrib import messages
+from django.db import transaction
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Customer,Product , Order, ProductDetails, Stock
+from .forms import CustomerForm, OrderForm, OrderItem, OrderItemForm, OrderItemFormSet
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    DeleteView,
+    UpdateView,
+)
+from django.db.models import Count
+from django.utils import timezone
+from django.forms import inlineformset_factory
+
+
+#----------------------------------------------------------
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -51,32 +73,164 @@ class OrderListView(LoginRequiredMixin, ListView):
     template_name = "orders/orders.html"
     context_object_name = "orders"
 
+    def get_queryset(self):
+        queryset = Order.objects.all().order_by('-created_at')
+        q = self.request.GET.get("q", "").strip()
+        if q:
+            if "-" in q:
+                q = q.split("-")[-1].lstrip("0") or "0"
+            queryset = queryset.filter(id__icontains=q)
+        return queryset
 
-class OrderCreateView(LoginRequiredMixin, CreateView):
+
+class OrderCreateView(View):
+    template_name = "orders/order_create.html"
+
+    def get_formset(self, data=None):
+        OrderItemFormSet = inlineformset_factory(
+            Order,
+            OrderItem,
+            form=OrderItemForm,
+            extra=0,
+            can_delete=True,
+            min_num=1,
+            validate_min=True
+        )
+        return OrderItemFormSet(data=data, prefix="items")
+
+    def get(self, request):
+        form = OrderForm()
+        formset = self.get_formset()
+        return render(request, self.template_name, {"form": form, "formset": formset, "title": "Create New Order"})
+
+    def post(self, request):
+        if "add_item" in request.POST:
+            post_data = request.POST.copy()
+            total_forms = int(post_data.get("items-TOTAL_FORMS", 1))
+            post_data["items-TOTAL_FORMS"] = str(total_forms + 1)
+            form = OrderForm(post_data)
+            formset = self.get_formset(data=post_data)
+            return render(request, self.template_name, {"form": form, "formset": formset, "title": "Create New Order"})
+
+        form = OrderForm(request.POST)
+        formset = self.get_formset(data=request.POST)
+
+        if form.is_valid() and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    order = form.save(commit=False)
+                    order.branch = request.user.branch
+                    order.created_by = request.user
+                    order.save()
+
+                    formset.instance = order
+                    formset.save()
+
+                    order.total_amount = sum(item.total_price for item in order.items.all())
+                    order.save(update_fields=["total_amount"])
+
+                messages.success(request, f"Order #{order.id} created successfully.")
+                return redirect("order_list")
+
+            except Exception as e:
+                messages.error(request, f"Error: {e}")
+
+        return render(request, self.template_name, {"form": form, "formset": formset, "title": "Create New Order"})
+
+
+# Order Update
+class OrderUpdateView(View):
+    template_name = "orders/order_create.html"
+
+    def get_formset(self, data=None, instance=None):
+        OrderItemFormSet = inlineformset_factory(
+            Order,
+            OrderItem,
+            form=OrderItemForm,
+            extra=1,
+            can_delete=True,
+            min_num=1,
+            validate_min=True
+        )
+        return OrderItemFormSet(data=data, instance=instance, prefix="items")
+
+    def get(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+        form = OrderForm(instance=order)
+        customer_form = CustomerForm(instance=order.customer)
+        formset = self.get_formset(instance=order)
+        return render(request, self.template_name, {
+            "form": form,
+            "customer_form": customer_form,
+            "formset": formset,
+            "order": order,
+            "title": f"Update Order #{order.id}",
+            "submit_label": "Save Changes",
+        })
+
+    def post(self, request, pk):
+        order = get_object_or_404(Order, pk=pk)
+
+        if "add_item" in request.POST:
+            post_data = request.POST.copy()
+            total_forms = int(post_data.get("items-TOTAL_FORMS", 1))
+            post_data["items-TOTAL_FORMS"] = str(total_forms + 1)
+            form = OrderForm(post_data, instance=order)
+            customer_form = CustomerForm(post_data, instance=order.customer)
+            formset = self.get_formset(data=post_data, instance=order)
+            return render(request, self.template_name, {
+                "form": form,
+                "customer_form": customer_form,
+                "formset": formset,
+                "order": order,
+                "title": f"Update Order #{order.id}",
+                "submit_label": "Save Changes",
+            })
+
+        form = OrderForm(request.POST, instance=order)
+        customer_form = CustomerForm(request.POST, instance=order.customer)
+        formset = self.get_formset(data=request.POST, instance=order)
+
+        if form.is_valid() and customer_form.is_valid() and formset.is_valid():
+            try:
+                with transaction.atomic():
+                    customer_form.save()
+                    form.save()
+                    formset.save()
+
+                    order.total_amount = sum(item.total_price for item in order.items.all())
+                    order.save(update_fields=["total_amount"])
+
+                messages.success(request, f"Order #{order.id} updated successfully.")
+                return redirect("order_list")
+
+            except Exception as e:
+                messages.error(request, f"Error: {e}")
+
+        return render(request, self.template_name, {
+            "form": form,
+            "customer_form": customer_form,
+            "formset": formset,
+            "order": order,
+            "title": f"Update Order #{order.id}",
+            "submit_label": "Save Changes",
+        })
+
+
+# Order Delete
+class OrderDeleteView(DeleteView):
     model = Order
-    form_class = OrderForm
-    template_name = 'orders/order_create.html'
-    success_url = '/orders/'
-
-    def form_valid(self, form):
-        form.instance.created_by = self.request.user
-        form.instance.branch = self.request.user.branch
-        return super().form_valid(form)
+    template_name = "orders/order_detail.html"
+    success_url = "/orders/"
+    pk_url_kwarg = "pk"
 
 
-class OrderUpdateView(LoginRequiredMixin, UpdateView):
+# Order Detail
+class OrderDetailView(DetailView):
     model = Order
-    form_class = OrderForm
-    template_name = 'orders/order_create.html'
-    success_url = '/orders/'
-    pk_url_kwarg = 'pk'
-
-
-class OrderDeleteView(LoginRequiredMixin, DeleteView):
-    model = Order
-    template_name = 'orders/order_detail.html'
-    success_url = '/orders/'
-    pk_url_kwarg = 'pk'
+    template_name = "orders/order_detail.html"
+    context_object_name = "order"
+    pk_url_kwarg = "pk"
 
 
 class OrderDetailView(LoginRequiredMixin, DetailView):
@@ -84,6 +238,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     template_name = 'orders/order_detail.html'
     context_object_name = 'order'
     pk_url_kwarg = 'pk'
+
 
 
 # Customer

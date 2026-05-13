@@ -2,17 +2,19 @@
 
 {% block content %}
 <div class="page-header">
-  <h2>Orders Management</h2>
+  <div>
+  <h1>Orders Management</h1>
   <p>Track and manage customer orders</p>
 </div>
+  <a  class ="add-btn" href="{% url 'order_create' %}" class='create-order'>+ Create Order</a>
+</div>
 
-<div class="search-container">
-  <form method="GET" action="{% url 'order_list'%}">
-    <input type="text" name="q" placeholder="search for Order by OrderID ...">
+
+  <form method="GET" action="{% url 'order_list'%}" class="search-bar">
+    <input type="text" name="q" placeholder="search for Order by OrderID ..." value="{{ query }}">
     <button type="submit"><strong>Search</strong></button>
   </form>
 
-</div>
 
 <div class='order-table'>
   <table>
@@ -28,19 +30,26 @@
     </thead>
     <tbody>
       {% for order in orders  %}
-      <tr>
-        <td>{{ order.id }}</td>
+      <tr class = ''>
+        <td>{{ order.order_number }}</td>
         <td>{{ order.customer.name }}</td>
         <td>{{ order.total_amount}}</td>
         <td>{{ order.status }}</td>
         <td>{{ order.created_at|date:'Y-m-d' }}</td>
-        <td><a href="/orders/details/{{order.id}}/" class='detail-btn'>Detail</a></td>
+        <td>
+          <a href="{% url 'order_detail' order.pk %}" class="act-btn act-view">
+                <i class="bi bi-receipt"></i>
+          </a>
+          </td>
       </tr>
       {% empty %}
         <p>No Orders Yet</p>
       {% endfor %}
     </tbody>
   </table>
+
 </div>
+
+
 
 {% endblock %}
