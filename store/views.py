@@ -301,15 +301,24 @@ def customer_delete(request, pk):
         request, "customers/customer_confirm_delete.html", {"customer": customer}
     )
 
-
+from django.db.models import Count, Sum
 @login_required
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
-    customer_orders = Order.objects.filter(customer=customer)
+    customer_orders = Order.objects.filter(customer=customer).order_by('-created_at')
+    total_spent = customer_orders.aggregate(Sum('total_amount'))['total_amount__sum'] or 0
+    last_order = customer_orders.first()
+    context = {
+        'customer': customer,
+        'orders': customer_orders,
+        'total_spent': total_spent,
+        'last_order': last_order,
+    }
+
     return render(
         request,
         "customers/customer_detail.html",
-        {"customer": customer, "orders": customer_orders},
+        context,
     )
 
 
