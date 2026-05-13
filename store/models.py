@@ -70,7 +70,7 @@ class Customer(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     branch = models.ForeignKey(Branch, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     order_type = models.CharField(max_length=50)
     status = models.CharField(max_length=50)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)

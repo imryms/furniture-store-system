@@ -126,6 +126,11 @@ class OrderCreateView(View):
                     formset.instance = order
                     formset.save()
 
+                    for item in order.items.all():
+                        if item.stock:
+                            item.stock.quantity -= item.quantity
+                            item.stock.save(update_fields=['quantity'])
+
                     order.total_amount = sum(item.total_price for item in order.items.all())
                     order.save(update_fields=["total_amount"])
 
@@ -147,7 +152,7 @@ class OrderUpdateView(View):
             Order,
             OrderItem,
             form=OrderItemForm,
-            extra=1,
+            extra=0,
             can_delete=True,
             min_num=1,
             validate_min=True

@@ -26,6 +26,7 @@
       <thead>
         <tr>
           <th>Product</th>
+          <th></th>
           <th>Stock</th>
           <th>Quantity</th>
           <th>Unit Price</th>
@@ -36,6 +37,11 @@
         <tr>
           {{ item_form.id }}
           <td>{{ item_form.product_details }}</td>
+          <td>
+            <button type="submit" name="set_product_{{ forloop.counter0 }}" class="btn btn-secondary">
+              Set
+            </button>
+          </td>
           <td>{{ item_form.stock }}</td>
           <td>{{ item_form.quantity }}</td>
           <td>{{ item_form.unit_price }}</td>

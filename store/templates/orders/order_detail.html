@@ -16,7 +16,7 @@
   <hr>
 
   <p><strong>Branch:</strong>  {{order.branch}}</p>
-  <p><strong>Created by: </strong>{{order.created_by}}</p>
+  <p><strong>Created by: </strong>{{ order.created_by.get_full_name|default:order.created_by.username }}</p>
   <p><strong>Order type: </strong>{{order.order_type}}</p>
 
   <hr>
@@ -40,10 +40,10 @@
   <p><strong>Created date: </strong>{{order.created_at|date:'Y-m-d'}}</p>
 
   <div class='detail-btn'>
-      <a href="{% url 'order_update' order.id %}">Update Order</a>
+      <a class="detail-update" href="{% url 'order_update' order.id %}">Update Order</a>
       <form method="post" action="{% url 'order_delete' order.id %}">
       {% csrf_token %}
-      <button type="submit">Delete Order</button>
+      <button class="delete-update" type="submit">Delete Order</button>
     </form>
   </div>
   </div>
