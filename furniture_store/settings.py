@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)q&xp)lurbxp)&t*1b&vc6^o3yq_u(rma2-xmdd*xu$s-fe2fj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-ALLOWED_HOSTS = ['furniture-store-system.onrender.com']
+DEBUG = True
 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'furniture-store-system.onrender.com']
 
 # Application definition
 
