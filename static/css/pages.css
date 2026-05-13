@@ -701,3 +701,28 @@
     padding: 2px 8px;
     border-radius: 20px;
 }
+
+.detail-update {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #8e261a;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+    width: 20%;
+}
+
+.detail-update:hover {
+    background: #7a1f15;
+}
+
+
+
