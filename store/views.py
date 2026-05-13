@@ -18,8 +18,6 @@ from django.utils import timezone
 from django.forms import inlineformset_factory
 
 
-#----------------------------------------------------------
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
