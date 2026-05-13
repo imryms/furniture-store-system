@@ -1,51 +1,121 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Order Details</h2>
 
-  <div class="order-details">
-  <h3>Order #{{order.id}}</h3>
+<a href="{% url 'order_list' %}" class="form-back">
+    <i class="bi bi-arrow-left"></i>
+</a>
 
-  <div class='customer-Details'>
-    <h3>Customer</h3>
-    <p><strong>Name: </strong>  {{order.customer.name}}</p>
-    <p><strong>Phone number: </strong>{{order.customer.phone}}</p>
-    <p><strong>Email: </strong>{{order.customer.email}}</p>
-  </div>
-
-  <hr>
-
-  <p><strong>Branch:</strong>  {{order.branch}}</p>
-  <p><strong>Created by: </strong>{{ order.created_by.get_full_name|default:order.created_by.username }}</p>
-  <p><strong>Order type: </strong>{{order.order_type}}</p>
-
-  <hr>
-
-  <div class='items-Details'>
-    <h3>Order Items: </h3>
-    {% for item in order.items.all %}
-    <div>
-        <p><strong>Product: </strong> {{ item.product_details.product.name }} - {{ item.product_details.code }}</p>
-        <p><strong>Quantity: </strong> {{ item.quantity }}</p>
-        <p><strong>Unit Price: </strong> {{ item.unit_price }} BHD</p>
+<div class="customer-top-card">
+    <div class="customer-info-wrap">
+        <div class="order-header-avatar">
+            <i class="bi bi-receipt"></i>
+        </div>
+        <div>
+            <div class="cname">Order #{{ order.id }}</div>
+        </div>
     </div>
-    <hr>
+    <div class="order-header-actions">
+        <a href="{% url 'order_update' order.pk %}" class="act-btn act-edit act-labeled">
+            <i class="bi bi-pencil"></i> Edit
+        </a>
+        <form action="{% url 'order_delete' order.pk %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="act-btn act-del act-labeled">
+                <i class="bi bi-trash"></i> Delete
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<div class="stats-row">
+    <div class="stat-card">
+        <div class="stat-label">Status</div>
+        <div class="stat-val stat-badge">
+            {% if order.status == 'delivered' %}
+                <span class="badge badge-delivered">Delivered</span>
+            {% elif order.status == 'pending' %}
+                <span class="badge badge-pending">Pending</span>
+            {% elif order.status == 'cancelled' %}
+                <span class="badge badge-cancelled">Cancelled</span>
+            {% else %}
+                <span class="badge badge-default">{{ order.status }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Order Type</div>
+        <div class="stat-val stat-sm">{{ order.order_type }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Total Amount</div>
+        <div class="stat-val accent">{{ order.total_amount }} BHD</div>
+    </div>
+</div>
+
+
+<div class="order-detail-grid">
+
+    <div class="otable">
+        <div class="otable-section-title">
+            <i class="bi bi-person"></i> Customer
+        </div>
+        <div class="odetail-row">
+            <span class="odetail-label">Name</span>
+            <span class="odetail-val">{{ order.customer.name }}</span>
+        </div>
+        <div class="odetail-row">
+            <span class="odetail-label">Phone</span>
+            <span class="odetail-val">{{ order.customer.phone }}</span>
+        </div>
+        <div class="odetail-row odetail-row-last">
+            <span class="odetail-label">Email</span>
+            <span class="odetail-val">{{ order.customer.email|default:"—" }}</span>
+        </div>
+    </div>
+
+    <div class="otable">
+        <div class="otable-section-title">
+            <i class="bi bi-info-circle"></i> Order Info
+        </div>
+        <div class="odetail-row">
+            <span class="odetail-label">Branch</span>
+            <span class="odetail-val">{{ order.branch }}</span>
+        </div>
+        <div class="odetail-row">
+            <span class="odetail-label">Created By</span>
+            <span class="odetail-val">{{ order.created_by.get_full_name|default:order.created_by.username }}</span>
+        </div>
+        <div class="odetail-row odetail-row-last">
+            <span class="odetail-label">Date</span>
+            <span class="odetail-val">{{ order.created_at|date:"d/m/Y" }}</span>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="orders-section-title">Order Items</div>
+
+<div class="otable">
+    <div class="otable-head otable-head-items">
+        <span>Product</span>
+        <span>Code</span>
+        <span>Qty</span>
+        <span>Unit Price</span>
+    </div>
+
+    {% for item in order.items.all %}
+    <div class="orow orow-items">
+        <span class="oitem-name">{{ item.product_details.product.name }}</span>
+        <span class="odate">{{ item.product_details.code }}</span>
+        <span>{{ item.quantity }}</span>
+        <span class="oprice">{{ item.unit_price }} BHD</span>
+    </div>
     {% empty %}
-        <p>No items in this order.</p>
+    <div class="empty-orders">No items in this order.</div>
     {% endfor %}
-  </div>
-
-  <p><strong>Status: </strong>{{order.status}}</p>
-  <p><strong>Total amount: </strong>{{order.total_amount}} BHD</p>
-  <p><strong>Created date: </strong>{{order.created_at|date:'Y-m-d'}}</p>
-
-  <div class='detail-btn'>
-      <a class="detail-update" href="{% url 'order_update' order.id %}">Update Order</a>
-      <form method="post" action="{% url 'order_delete' order.id %}">
-      {% csrf_token %}
-      <button class="delete-update" type="submit">Delete Order</button>
-    </form>
-  </div>
-  </div>
+</div>
 
 {% endblock %}
