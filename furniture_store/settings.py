@@ -25,8 +25,7 @@ SECRET_KEY = 'django-insecure-)q&xp)lurbxp)&t*1b&vc6^o3yq_u(rma2-xmdd*xu$s-fe2fj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'furniture-store-system.onrender.com']
 
 # Application definition
 
@@ -137,5 +136,5 @@ import os
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_REDIRECT_URL = 'dashboard' 
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'login'

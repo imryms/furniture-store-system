@@ -3,59 +3,95 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-<div class="form-container">
-  <h2>{{ title }}</h2>
 
-  <form method="post">
-    {% csrf_token %}
+<a href="{% url 'order_list' %}" class="form-back">
+    <i class="bi bi-arrow-left"></i>
+</a>
 
-    {% if customer_form %}
-    <h4>Customer Info</h4>
-    {{ customer_form.as_p }}
-    <hr>
-    {% endif %}
+<div class="form-card order-form-card">
 
-    <h4>Order Info</h4>
-    {{ form.as_p }}
-
-    <hr>
-
-    <h4>Order Items</h4>
-    {{ formset.management_form }}
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Product</th>
-          <th></th>
-          <th>Stock</th>
-          <th>Quantity</th>
-          <th>Unit Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item_form in formset %}
-        <tr>
-          {{ item_form.id }}
-          <td>{{ item_form.product_details }}</td>
-          <td>
-            <button type="submit" name="set_product_{{ forloop.counter0 }}" class="btn btn-secondary">
-              Set
-            </button>
-          </td>
-          <td>{{ item_form.stock }}</td>
-          <td>{{ item_form.quantity }}</td>
-          <td>{{ item_form.unit_price }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <div>
-      <button type="submit" name="add_item" class="btn add-item">Add Item</button>
-      <button type="submit" class="btn btn-submit">{{ submit_label|default:"Save Order" }}</button>
-      <button type="button" class="btn cancel" onclick="window.location.href=window.location.href">Cancel</button>
+    <div class="form-header">
+        <div class="form-header-icon">
+            <i class="bi bi-receipt"></i>
+        </div>
+        <div>
+            <h1>{{ title }}</h1>
+            <p>Fill in the details below to save the order</p>
+        </div>
     </div>
 
-  </form>
+    <form method="POST">
+        {% csrf_token %}
+
+        {% if customer_form %}
+        <div class="order-section-title">
+            <i class="bi bi-person"></i> Customer Info
+        </div>
+        <div class="form-fields">
+            {% for field in customer_form %}
+            <div class="form-field">
+                <label>{{ field.label }}{% if field.field.required %} <span class="req">*</span>{% endif %}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="order-section-title">
+            <i class="bi bi-info-circle"></i> Order Info
+        </div>
+        <div class="form-fields">
+            {% for field in form %}
+            <div class="form-field">
+                <label>{{ field.label }}{% if field.field.required %} <span class="req">*</span>{% endif %}</label>
+                {{ field }}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="order-section-title">
+            <i class="bi bi-basket"></i> Order Items
+        </div>
+
+        {{ formset.management_form }}
+
+        <div class="order-items-table">
+            <div class="oitems-head">
+                <span>Product</span>
+                <span></span>
+                <span>Stock</span>
+                <span>Quantity</span>
+                <span>Unit Price</span>
+            </div>
+
+            {% for item_form in formset %}
+            <div class="oitems-row">
+                {{ item_form.id }}
+                <span class="oitems-cell">{{ item_form.product_details }}</span>
+                <span class="oitems-cell oitems-set">
+                    <button type="submit" name="set_product_{{ forloop.counter0 }}" class="btn-set">Set</button>
+                </span>
+                <span class="oitems-cell">{{ item_form.stock }}</span>
+                <span class="oitems-cell">{{ item_form.quantity }}</span>
+                <span class="oitems-cell">{{ item_form.unit_price }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="order-form-actions">
+            <button type="submit" name="add_item" class="btn-add-item">
+                <i class="bi bi-plus"></i> Add Item
+            </button>
+        </div>
+
+        <div class="form-footer">
+            <a href="{% url 'order_list' %}" class="btn-cancel">Cancel</a>
+            <button type="submit" class="btn-save">
+                <i class="bi bi-floppy"></i> {{ submit_label|default:"Save Order" }}
+            </button>
+        </div>
+
+    </form>
 </div>
+
 {% endblock %}
